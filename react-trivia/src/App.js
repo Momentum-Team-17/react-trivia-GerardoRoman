@@ -9,7 +9,7 @@ function App() {
   // const [question, setQuestion] = useState(null)
 
   useEffect(() => {
-    const API_URL = 'https://opentdb.com/api_category.php';
+    const API_URL = `https://opentdb.com/api_category.php`;
 
     axios.get(API_URL).then((taco) => setCategories(taco.data.trivia_categories) )
     }, [])
@@ -26,7 +26,8 @@ if(selectedCategory) {
   return (
 
     <div className='category-list'>
-      <h1>Select a category!</h1>
+      <h1>Welcome to React Trivia!</h1>
+      <h2>Select a category!</h2>
       {
       categories && categories.map((category) => (
       <button key={category.id} onClick={() => handleCategorySelect(category.id)}>{category.name}</button>
