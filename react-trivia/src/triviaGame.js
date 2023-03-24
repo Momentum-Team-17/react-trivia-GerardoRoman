@@ -24,22 +24,19 @@ export default function Game({categoryId}) {
 
     return (
         <>
- <div className="container">
-      <div className='question'>
+<div className="container">
+    <div className='question'>
         <h1>{question.current}</h1>
-      </div>
-    <div className='all-buttons'>{answers.current && answers.current.map((answer) => (
+    </div>
+    <div className='all-buttons'>{answers.current && answers.current.map((answers) => (
         <div>
-      <button className='button1'>{answer}</button>
-      <button className='button3'>{answer}</button>
-      <button className='button2'>{answer}</button>
-      <button className='button4'>{answer}</button> 
-      </div>
-      ))}
+            <button key={answers} onClick={() => (answers)}>{answers}</button>
+        </div>
+        ))}
     </div>
 </div>
 </>
     )
- }
+}
 
 
