@@ -23,34 +23,27 @@ export default function Game({categoryId}) {
 })
 }, [])
 
-        function handleClick(selectedAnswer) {
-            if (questions.results[currentQuestion].correct_answer === selectedAnswer) {
-                score.current += 1
-                setCurrentQuestion(currentQuestion => currentQuestion + 1)
-            } else {
-                alert('Wrong answer!')
-                score.current -= 1
-            }
-        }
-
-    return (
-        <>
-<div className="container">
-    <div className='question'>
-        <h1>{question.current}</h1>
-    </div>
-    <div className='score'>
-        <h2>{score.current}</h2>
-    </div>
-    <div className='all-buttons'>{answers.current && answers.current.map((answer) => (
-        <div key={answer}>
-            <button onClick={() => handleClick(answer)}>{answer}</button>
-        </div>
-        ))}
-    </div>
-</div>
-</>
-    )
+const handleAnswerSelect = (answer) => {
+    console.log(`Selected answer: ${answer}`);
 }
 
-
+return (
+    <>
+        <div className="container">
+            <div className='score'>
+                <h2>Score: {score.current}</h2>
+            </div>
+            <div className='question'>
+                <h1>{question.current}</h1>
+            </div>
+            <div className='all-buttons'>
+                {answers.current && answers.current.map((answer) => (
+                    <div key={answer}>
+                        <button onClick={() => handleAnswerSelect(answer)}>{answer}</button>
+                    </div>
+                ))}
+            </div>
+        </div>
+    </>
+    )
+}
