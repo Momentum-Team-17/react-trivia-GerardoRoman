@@ -15,8 +15,8 @@ export default function Game({categoryId}) {
 
             setQuestions(response.data)
             question.current = response.data.results[0].question
-            let correctAnswer = response.data.results[0].correct_answer
-            let wrongAnswers = response.data.results[0].incorrect_answers
+            const correctAnswer = response.data.results[0].correct_answer
+            const wrongAnswers = response.data.results[0].incorrect_answers
             answers.current = [...wrongAnswers, correctAnswer]
             score.current = 0
             // console.log(answers.current)
@@ -24,7 +24,20 @@ export default function Game({categoryId}) {
 }, [])
 
 const handleAnswerSelect = (answer) => {
-    console.log(`Selected answer: ${answer}`);
+    const isCorrect = answer === questions.results[currentQuestion].correct_answer
+    if (isCorrect) {
+        score.current += 1 
+    }
+    const nextQuestion = currentQuestion + 1
+    if (nextQuestion < questions.results.length) {
+        setCurrentQuestion(nextQuestion)
+        question.current = questions.results[nextQuestion].question
+        const correctAnswer = questions.results[nextQuestion].correct_answer
+        const wrongAnswers = questions.results[nextQuestion].incorrect_answers
+        answers.current = [...wrongAnswers, correctAnswer]
+    } else {
+        alert(`Game Over! Your final score is ${score.current}`)
+    }
 }
 
 return (
