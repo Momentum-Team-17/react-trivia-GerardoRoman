@@ -1,6 +1,6 @@
-import axios from "axios";
-import React, { useEffect, useRef, useState } from "react";
-
+import axios from "axios"
+import React, { useEffect, useRef, useState } from "react"
+import he from 'he'
 
 export default function Game({categoryId}) {
     const [questions, setQuestions] = useState(null)
@@ -14,7 +14,7 @@ export default function Game({categoryId}) {
         axios.get(URL).then((response) => { 
 
             setQuestions(response.data)
-            question.current = response.data.results[0].question
+            question.current = he.decode(response.data.results[0].question)
             const correctAnswer = response.data.results[0].correct_answer
             const wrongAnswers = response.data.results[0].incorrect_answers
             answers.current = [...wrongAnswers, correctAnswer]
@@ -24,9 +24,11 @@ export default function Game({categoryId}) {
 }, [])
 
 const handleAnswerSelect = (answer) => {
-    const isCorrect = answer === questions.results[currentQuestion].correct_answer
+    const isCorrect = answer === he.decode(questions.results[currentQuestion].correct_answer)
     if (isCorrect) {
         score.current += 1 
+    } else {
+        alert("Sorry, that's incorrect. The correct answer is: " + questions.results[currentQuestion].correct_answer)
     }
     const nextQuestion = currentQuestion + 1
     if (nextQuestion < questions.results.length) {
@@ -44,15 +46,15 @@ return (
     <>
         <div className="container">
             <div className='score'>
-                <h2>Score: {score.current}</h2>
+                <h2>Score: {score.current}/10</h2>
             </div>
             <div className='question'>
-                <h1>{question.current}</h1>
+                <h1>{he.decode(question.current)}</h1>
             </div>
             <div className='all-buttons'>
                 {answers.current && answers.current.map((answer) => (
                     <div key={answer}>
-                        <button onClick={() => handleAnswerSelect(answer)}>{answer}</button>
+                        <button onClick={() => handleAnswerSelect(answer)}>{he.decode(answer)}</button>
                     </div>
                 ))}
             </div>
